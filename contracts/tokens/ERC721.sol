@@ -4,7 +4,7 @@
 pragma solidity ^0.8.0;
 
 import "./IERC721Receiver.sol";
-// import "./tokens/IERC721Metadata.sol";
+import "./IERC721Metadata.sol";
 import ".././utils/Address.sol";
 import ".././utils/Context.sol";
 import ".././utils/String.sol";
@@ -17,7 +17,7 @@ import "./ERC165.sol";
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {ERC721Enumerable}.
  */
-contract ERC721 is Context, ERC165, IERC721 {
+contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     using Address for address;
     using Strings for uint256;
 

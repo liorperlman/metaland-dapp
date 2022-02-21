@@ -1,14 +1,34 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { Component }  from 'react';
+import { useWeb3React } from "@web3-react/core";
+import { injected } from "./wallet/Connector";
+import web3 from "web3";
 
-function App() {
+const App = () => {
+  const { active, account, library, activate,deactivate } = useWeb3React()
+  async function connect() {
+    try {
+      await activate(injected);
+    } catch (ex) {
+      console.log(account)
+    }
+  }
   return (
-    <div className="App">
+    <>
+
+<div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+         MetaLand!
+
         </p>
+
+        {(active) ?
+  <button className="main-mint-btn">Mint</button>
+  : <button type="button" onClick={connect} className="main-mint-btn">Connect Wallet To Mint</button>
+}
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -19,6 +39,8 @@ function App() {
         </a>
       </header>
     </div>
+    
+    </>
   );
 }
 
