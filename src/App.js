@@ -1,8 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { Component }  from 'react';
+import React  from 'react';
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./wallet/Connector";
+import Map from "./components/Map.js"
 import web3 from "web3";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
          MetaLand!
+         <Map />
 
         </p>
 
