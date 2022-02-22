@@ -7,7 +7,7 @@ import "./Ownable.sol";
 
  
 
-contract Land is ERC721, Ownable {
+contract PurchaseLand is ERC721, Ownable {
 
 address[80] public owners;
   
@@ -16,7 +16,7 @@ address[80] public owners;
 
   }
 
-  function buyLand (uint landId) payable public returns (uint) {
+  function purchase (uint landId) payable public returns (uint) {
     require(landId >= 0 && landId <= 79);
     owners[landId] = msg.sender;
     return landId;

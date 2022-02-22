@@ -3,17 +3,21 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Web3ReactProvider } from '@web3-react/core'
-import Web3 from 'web3'
+import Web3Provider from 'web3-react'
+import { Connectors } from 'web3-react'
+const { InjectedConnector, NetworkOnlyConnector } = Connectors
 
-function getLibrary(provider) {
-  return new Web3(provider)
-}
+const MetaMask = new InjectedConnector({ supportedNetworks: [1, 4] })
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <Web3ReactProvider getLibrary={getLibrary}>
-    <App />
-    </Web3ReactProvider>
+    <Web3Provider
+      connectors={MetaMask}
+      libraryName={'ethers.js' | 'web3.js' | null}
+    >
+      <App />
+    </Web3Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
