@@ -3,8 +3,8 @@ import React from "react"
 const Land = (props) => {
 
     return (
-        <Col>
-            <Button>
+        <Col key = {props.id}>
+            <Button key = {props.id}>
             </Button>
         </Col>
     )

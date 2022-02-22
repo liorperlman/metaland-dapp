@@ -23,9 +23,10 @@ const App = () => {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
          MetaLand!
+         </p>
          <Map />
 
-        </p>
+       
 
         {(active) ?
   <button className="main-mint-btn">Mint</button>

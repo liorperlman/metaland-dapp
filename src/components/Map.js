@@ -26,34 +26,34 @@ const Map = () => {
 
         <Container>
             <Row>
-                 {splitArrayMap[0].map((land) => <Land id={land.id} name={land.name} />)}
+                {splitArrayMap[0].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
             </Row>
             <Row>
-                {splitArrayMap[1].map((land) => <Land id={land.id} name={land.name} />)}
+                {splitArrayMap[1].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
             </Row>
             <Row>
-                {splitArrayMap[2].map((land) => <Land id={land.id} name={land.name} />)}
+                {splitArrayMap[2].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
             </Row>
             <Row>
-                {splitArrayMap[3].map((land) => <Land id={land.id} name={land.name} />)}
-            </Row>       
-            <Row>
-             {splitArrayMap[4].map((land) => <Land id={land.id} name={land.name} />)} 
+                {splitArrayMap[3].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
             </Row>
             <Row>
-                 {splitArrayMap[5].map((land) => <Land id={land.id} name={land.name} />)}
+                {splitArrayMap[4].map((land) => <Land key= {land.id}  id={land.id} name={land.name} />)}
             </Row>
             <Row>
-              {splitArrayMap[6].map((land) => <Land id={land.id} name={land.name} />)}
-            </Row>     
-            <Row>
-              {splitArrayMap[7].map((land) => <Land id={land.id} name={land.name} />)}
-            </Row>       
-            <Row>
-                  {splitArrayMap[8].map((land) => <Land id={land.id} name={land.name} />)}
+                {splitArrayMap[5].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
             </Row>
             <Row>
-               {splitArrayMap[9].map((land) => <Land id={land.id} name={land.name} />)}
+                {splitArrayMap[6].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
+            </Row>
+            <Row>
+                {splitArrayMap[7].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
+            </Row>
+            <Row>
+                {splitArrayMap[8].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
+            </Row>
+            <Row>
+                {splitArrayMap[9].map((land) => <Land key= {land.id} id={land.id} name={land.name} />)}
             </Row>
 
 
