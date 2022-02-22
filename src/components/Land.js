@@ -1,12 +1,12 @@
-import { Col, Row } from "react-bootstrap"
+import { Col, Row, Card, Button } from "react-bootstrap"
 import React from "react"
 const Land = (props) => {
 
     return (
-        <>
-        <Row>id = {props.id} name = {props.name} </Row>
-        </>
-
+        <Col>
+            <Button>
+            </Button>
+        </Col>
     )
 }
 
