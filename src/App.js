@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Map from "./components/Map.js"
 import web3 from "web3";
@@ -7,29 +7,42 @@ import PurchaseLandData from "./PurchaseLand.json"
 import getWeb3 from "./hooks/getWeb3"
 
 
-const contractAddress = "0x1fcfCAB6F7E73Fdd59377aF806B46581d811ec89"
+const contractAddress = "0x241A219685beA031590303e754Bb603Bdd06D977"
 const App = () => {
+  const [storageValue, setStorageValue] = useState(0)
+  const [web3, setWeb3] = useState(undefined)
+  const [accounts, setAccounts] = useState(null)
+  const [contract, setContract] = useState(null)
   const [accountId, setAccountId] = useState("")
-
+  let purchaseLandInstance;
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         // const networkId = await web3.net.getId();
         const deployedNetwork = PurchaseLandData.networks[5777];
-        const web3 = await getWeb3()
-        const accounts = await web3.eth.getAccounts();
-        
-        let contract =  new web3.eth.Contract(
+        const web3Response = await getWeb3()
+        setWeb3(web3Response)
+        console.log(web3)
+        /*const accountsResponse = await web3.eth.getAccounts();
+        setAccounts(accountsResponse)
+
+        let contractResponse =  new web3.eth.Contract(
           PurchaseLandData.abi,
           deployedNetwork && deployedNetwork.address);
-        contract.setProvider(web3)
-        contract.options.address = contractAddress
+        
+        
+        contractResponse.setProvider(web3)
+        contractResponse.options.address = contractAddress
+        setContract(contractResponse)
+        
 
-        console.log(contract);
-        const response = await contract.methods.purchase(0x000000000000000000000000000000000000010).call();
+        // console.log(contract);
+        
+        // const response = await contract.methods.purchase(0x000000000000000000000000000000000000010).call();
     
-        console.log( accounts[0]);
-        setAccountId(accounts[0])
+        // console.log( accounts[0]);
+        setAccountId(accounts[0])*/
       } catch (err) {
         console.log(err);
       }
@@ -37,6 +50,7 @@ const App = () => {
     fetchData()
   }, [])
 
+  
 
 
 
