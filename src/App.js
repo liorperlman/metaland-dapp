@@ -7,7 +7,7 @@ import PurchaseLandData from "./PurchaseLand.json"
 import getWeb3 from "./hooks/getWeb3"
 
 
-const contractAddress = "0xae32a185fB65d5351fbee5FE915696aCcaD139Ae"
+const contractAddress = "0x1fcfCAB6F7E73Fdd59377aF806B46581d811ec89"
 const App = () => {
   const [accountId, setAccountId] = useState("")
 
@@ -15,7 +15,7 @@ const App = () => {
     const fetchData = async () => {
       try {
         // const networkId = await web3.net.getId();
-        const deployedNetwork = PurchaseLandData.networks[1337];
+        const deployedNetwork = PurchaseLandData.networks[5777];
         const web3 = await getWeb3()
         const accounts = await web3.eth.getAccounts();
         
@@ -26,8 +26,9 @@ const App = () => {
         contract.options.address = contractAddress
 
         console.log(contract);
-        const response = await contract.methods.purchase(0x0000000000000000000000000000000000000001).call();
-        console.log(response);
+        const response = await contract.methods.purchase(0x000000000000000000000000000000000000010).call();
+    
+        console.log( accounts[0]);
         setAccountId(accounts[0])
       } catch (err) {
         console.log(err);

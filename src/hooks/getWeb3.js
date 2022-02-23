@@ -10,6 +10,7 @@ const getWeb3 = () =>
         try {
           // Request account access if needed
           await window.ethereum.request({ method: "eth_requestAccounts" });;
+          // await window.ethereum.enable()
           // Accounts now exposed
           resolve(web3);
         } catch (error) {

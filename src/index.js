@@ -18,9 +18,7 @@ function getLibrary(provider) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Web3ReactProvider library={getLibrary}>
       <App />
-    </Web3ReactProvider>
   </React.StrictMode >,
   document.getElementById('root')
 );
