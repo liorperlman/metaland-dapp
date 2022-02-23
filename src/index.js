@@ -3,22 +3,25 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
-import Web3Provider from 'web3-react'
 import { Connectors } from 'web3-react'
+import Web3 from 'web3'
+import { Web3ReactProvider } from '@web3-react/core'
 const { InjectedConnector, NetworkOnlyConnector } = Connectors
 
 const MetaMask = new InjectedConnector({ supportedNetworks: [1, 4] })
-
+// const Infura = new NetworkOnlyConnector({
+//   providerURL: 'https://mainnet.infura.io/v3/...'
+// })
+function getLibrary(provider) {
+  return new Web3(provider)
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <Web3Provider
-      connectors={MetaMask}
-      libraryName={'ethers.js' | 'web3.js' | null}
-    >
+    <Web3ReactProvider library={getLibrary}>
       <App />
-    </Web3Provider>
-  </React.StrictMode>,
+    </Web3ReactProvider>
+  </React.StrictMode >,
   document.getElementById('root')
 );
 
