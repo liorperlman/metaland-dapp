@@ -19,4 +19,12 @@ contract PurchaseLand is ERC721, Ownable {
         emit LandBought(msg.sender, landId, owners[landId]);
         return landId;
     }
+    // Retrieving the owners
+    function getOwners() public view returns (address[80] memory) {
+        return owners;
+    }
+    // Retrieving specific owner
+    function getOwner(uint256 landId) public view returns (address owner) {
+        return owners[landId];
+    }
 }
