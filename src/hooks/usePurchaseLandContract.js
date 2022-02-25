@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import PurchaseLandData from "../PurchaseLand.json"
 import getWeb3 from "./getWeb3"
 
-const contractAddress = "0x95619696E7bE3c677188c5a3aEdDe91d30d124A4"
+const contractAddress = "0x57Ce273871743C485F59189CF47221D3244E503C"
 export const usePurchaseLandContract = () => {
 
     const [web3, setWeb3] = useState(null)
@@ -22,7 +22,6 @@ export const usePurchaseLandContract = () => {
     }, [])
   
     useEffect(() => {
-  
       const updatedWeb3 = async () => {
        if(web3)
         try {

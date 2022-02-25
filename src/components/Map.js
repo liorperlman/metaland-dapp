@@ -3,6 +3,8 @@
 import React from 'react'
 import { Container, Row, Col } from "react-bootstrap"
 import Land from "./Land"
+import { usePurchaseLandContract } from "../hooks/usePurchaseLandContract"
+
 
 
 const createMapArray = () => {
@@ -21,6 +23,7 @@ const splitArrayMap = createMapArray()
 console.log(splitArrayMap);
 
 const Map = () => {
+    const [contract, accounts] = usePurchaseLandContract()
 
     return (
 
@@ -28,61 +31,61 @@ const Map = () => {
             <Row>
                 {splitArrayMap[0].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land  id={land.id} name={land.name} />
+                    <Land  id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[1].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[2].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[3].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[4].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[5].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[6].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[7].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[8].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[9].map((land) => 
                 <Col key={land.id} className = "p-0">
-                    <Land id={land.id} name={land.name} />
+                    <Land id={land.id} name={land.name} contract={contract} accounts={accounts} />
                 </Col>)}
             </Row>
 

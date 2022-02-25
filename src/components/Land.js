@@ -1,20 +1,17 @@
 import { Button } from "react-bootstrap"
 import React, { useState, useEffect } from "react"
-import { usePurchaseLandContract } from "../hooks/usePurchaseLandContract"
 
 const Land = (props) => {
-    const [contract, accounts] = usePurchaseLandContract()
     const [color, setColor] = useState("primary")
     const [isDisabled, setIsDisabled] = useState("")
     const [buttonIsReady, setButtonIsReady] = useState(false)
     const hexId = `0x00000000000000000000000000000000000000${props.id.toString(16)}`
 
     const handleClick = async (id) => {
-        let hexId = `0x00000000000000000000000000000000000000${id.toString(16)}`
         try {
-            await contract.methods.purchase(hexId).send()
-            const newOwner = await contract.methods.getOwner(id).call()
-            const isOwned = newOwner === accounts[0]
+            await props.contract.methods.purchase(hexId).send()
+            const newOwner = await props.contract.methods.getOwner(id).call()
+            const isOwned = newOwner === props.accounts[0]
 
             if (isOwned) {
                 markAsOwned()
@@ -32,9 +29,9 @@ const Land = (props) => {
     }
     useEffect(() => {
         const markAsOwnedIfNeeded = async () => {
-            if(contract)
+            if(props.contract)
             try {
-                const maybeOwner = await contract.methods.getOwner(hexId).call()
+                const maybeOwner = await props.contract.methods.getOwner(hexId).call()
                 const isOwned = maybeOwner !== "0x0000000000000000000000000000000000000000"
                 if (isOwned) {
                     markAsOwned()
@@ -48,7 +45,7 @@ const Land = (props) => {
         }
         markAsOwnedIfNeeded()
 
-    }, [contract])
+    }, [props.contract])
 
 
     return (
