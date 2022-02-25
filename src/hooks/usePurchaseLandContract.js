@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import PurchaseLandData from "../PurchaseLand.json"
 import getWeb3 from "./getWeb3"
 
-const contractAddress = "0x20c17A64714a43315E8ED91772589d6aE4BA273F"
+const contractAddress = "0x95619696E7bE3c677188c5a3aEdDe91d30d124A4"
 export const usePurchaseLandContract = () => {
 
     const [web3, setWeb3] = useState(null)
@@ -22,10 +22,9 @@ export const usePurchaseLandContract = () => {
     }, [])
   
     useEffect(() => {
-      console.log("web3")
   
       const updatedWeb3 = async () => {
-        if(web3)
+       if(web3)
         try {
           const accountsResponse = await web3.eth.getAccounts();
           setAccounts(accountsResponse)
@@ -37,16 +36,13 @@ export const usePurchaseLandContract = () => {
     }, [web3])
   
     useEffect(() => {
-      console.log("accounts");
       const updatedAccounts = async () => {
         if(accounts)
         try {
           const deployedNetwork = PurchaseLandData.networks[5777];
-          console.log(accounts);
           let contractResponse = new web3.eth.Contract(
             PurchaseLandData.abi,
             deployedNetwork && deployedNetwork.address,{from: accounts[0]});
-            // const instance = await PurchaseLand.deployed();
   
           contractResponse.setProvider(web3)
           contractResponse.options.address = contractAddress

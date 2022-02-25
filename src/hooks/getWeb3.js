@@ -35,6 +35,9 @@ const getWeb3 = async () =>
         resolve(web3);
       }
     });
+    window.ethereum.on('disconnect', () => {
+      console.log("MetaMask discconnected")
+})
   });
 
 export default getWeb3;
