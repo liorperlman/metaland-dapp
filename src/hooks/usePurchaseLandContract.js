@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import PurchaseLandData from "../PurchaseLand.json"
 import getWeb3 from "./getWeb3"
 
