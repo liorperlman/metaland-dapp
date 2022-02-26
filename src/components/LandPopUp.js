@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
-import { Card, ListGroup, ListGroupItem, Button } from "react-bootstrap"
-const LandPopUp = (props) => {
-    const [isOwned, setIsOwned] = useState(props.isOwned)
+import { Card, Button } from "react-bootstrap"
+import { ACTIONS } from './Land'
+
+const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
+    const [isOwned, setIsOwned] = useState(isOwned1)
+    console.log(isOwned);
 
 
 
     const handlePurchaseClick = async (id) => {
         try {
 
-            await props.contract.methods.purchase(props.hexId).send()
-            const newOwner = await props.contract.methods.getOwner(id).call()
-            const isOwned = newOwner === props.accounts[0]
+            await contract.methods.purchase(hexId).send()
+            const newOwner = await contract.methods.getOwner(id).call()
+            const isOwned = newOwner === account[0]
             if (isOwned) {
-               let button = document.getElementById(props.id)
-               button.style.backgroundColor = "RED"
+                dispatch({ type: ACTIONS.AsOwned })
+                setIsOwned(true)
             }
         } catch (err) {
             console.log("purchase rejected");
         }
     }
-
     return (
         <>
             <Card style={{ width: '18rem' }}>
-                {/* <Card.Img variant="top" src="holder.js/100px180?text=Image cap" /> */}
                 <Card.Body>
                     <Card.Title>Card Title</Card.Title>
                     <Card.Text>
@@ -31,14 +32,9 @@ const LandPopUp = (props) => {
                         the card's content.
                     </Card.Text>
                 </Card.Body>
-                {/* <ListGroup className="list-group-flush">
-                    <ListGroupItem>Cras justo odio</ListGroupItem>
-                    <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                    <ListGroupItem>Vestibulum at eros</ListGroupItem>
-                </ListGroup> */}
                 <Card.Body>
-               
-                    {!isOwned && <Button variant='primary' onClick={() => { handlePurchaseClick(props.id) }}>Purchase!</Button>}
+
+                    {!isOwned && <Button variant='primary' onClick={async() => { handlePurchaseClick(id) }}>Purchase!</Button>}
                 </Card.Body>
             </Card>
 
