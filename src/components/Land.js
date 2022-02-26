@@ -31,7 +31,7 @@ const Land = (props) => {
     const [isOwned, setIsOwned] = useState(false)
     const hexId = `0x00000000000000000000000000000000000000${props.id.toString(16)}`
 
-
+    console.log(props.accounts)
     const markLand = async () => {
         if (props.contract)
             try {

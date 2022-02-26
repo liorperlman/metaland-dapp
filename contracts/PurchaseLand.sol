@@ -8,6 +8,7 @@ contract PurchaseLand is ERC721, Ownable {
     uint256 balance;
 
     event LandBought(address indexedFrom, uint256 landId, address owner);
+    event LandTransfer(address from, address to, uint landId);
 
     constructor() ERC721("MetaLand", "MND") {}
 
@@ -26,5 +27,11 @@ contract PurchaseLand is ERC721, Ownable {
     // Retrieving specific owner
     function getOwner(uint256 landId) public view returns (address owner) {
         return owners[landId];
+    }
+
+    function transferLand(address from, address to, uint256 landId ) public virtual onlyOwner returns (uint256) {
+        transferFrom(from, to, landId);
+        owners[landId] = to;
+        return landId;
     }
 }
