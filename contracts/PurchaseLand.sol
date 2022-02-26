@@ -29,9 +29,10 @@ contract PurchaseLand is ERC721, Ownable {
         return owners[landId];
     }
 
-    function transferLand(address from, address to, uint256 landId ) public virtual onlyOwner returns (uint256) {
+    function transferLand(address from, address to, uint256 landId ) public virtual returns (uint256) {
         transferFrom(from, to, landId);
         owners[landId] = to;
+        emit LandTransfer(from ,to ,landId);
         return landId;
     }
 }
