@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Form } from "react-bootstrap"
 import { ACTIONS } from './Land'
+import TicTac from "../games/TicTac"
+// import MemoryGame from "../games/MemoryGame/MemoryGame.js"
 
 const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
     const [isOwned, setIsOwned] = useState(isOwned1)
@@ -56,6 +58,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
                             <Card.Title>Land {id}</Card.Title>
+                            {isOwned && <TicTac />}
                             <Card.Text>
                                 Some quick example text to build on the card title and make up the bulk of
                                 the card's content.

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 function Square({ value, onClick }) {
 
   return (
-    <button className="square" onClick={onClick}>
+    <button className="square w-25 p-4" onClick={onClick}>
       {value}
     </button>
   );
@@ -98,7 +98,7 @@ function TicTac() {
   return (
     <div className="container">
       <div className="game">
-        <div className="game-board">
+        <div className="game-board">Tic Tac Toe 3X3
           <div className="board-row">
             {renderSquare(0)}
             {renderSquare(1)}

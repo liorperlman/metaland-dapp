@@ -14,7 +14,7 @@ const App = () => {
             MetaLand!
           </p>
           <Map />
-          <TicTac />
+          
         </header>
       </div>
 
