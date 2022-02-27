@@ -8,8 +8,9 @@ import "./IERC721Metadata.sol";
 import ".././utils/Address.sol";
 import ".././utils/Context.sol";
 import ".././utils/String.sol";
-import "./IERC721.sol";
 import "./ERC165.sol";
+import "./IERC721.sol";
+
 
 
 /**
@@ -17,7 +18,7 @@ import "./ERC165.sol";
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {ERC721Enumerable}.
  */
-contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
+contract ERC721 is  Context, IERC721, ERC165, IERC721Metadata  {
     using Address for address;
     using Strings for uint256;
 

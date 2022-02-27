@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button, Form } from "react-bootstrap"
 import { ACTIONS } from './Land'
 import TicTac from "../games/TicTac"
-// import MemoryGame from "../games/MemoryGame/MemoryGame.js"
+import MemoryGame from "../games/MemoryGame/MemoryGame"
+
 
 const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
     const [isOwned, setIsOwned] = useState(isOwned1)
@@ -34,7 +35,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
             if (isValidAccountId(accountId)) {
                 console.log(account[0], accountId, id);
                 try {
-                    let result = await contract.methods.transferLand(account[0], accountId, id).send()
+                    let result = await contract.methods.transferFrom(account[0], accountId, id).send()
                     console.log(result)
                 } catch (e) {
                     console.log(e);
@@ -44,25 +45,31 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
 
         useEffect(() => {
             const checkIfOwnedByMe = async () => {
-                const newOwner = await contract.methods.getOwner(id).call()
+                try{
+                const newOwner = await contract.methods.ownerOf(hexId).call()
                 const isOwnedByMe = newOwner === account[0]
                 if (isOwnedByMe) {
                     setIsOwnedByMe(true)
                 }else
                     setIsOwnedByMe(false)
+                }catch(e){
+                    console.log("owner is not found");
+                }
             }
+            
             checkIfOwnedByMe()
-        },[])
+        })
             return (
                 <>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ display: 'flex' }}>
                         <Card.Body>
                             <Card.Title>Land {id}</Card.Title>
-                            {isOwned && <TicTac />}
                             <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                Some content
                             </Card.Text>
+               
+                            {(id%2 ==0 && isOwned) &&  <MemoryGame />}
+                            {(id%2 ==1 && isOwned) && <TicTac/>}
                         </Card.Body>
                         <Card.Body>
                             {!isOwned && <Button variant='primary' onClick={async () => { handlePurchaseClick(id) }}>Purchase!</Button>}

@@ -1,4 +1,5 @@
-import { React, useEffect, useState } from "react"
+import   React, { useEffect, useState } from "react"
+import {Container} from "react-bootstrap" 
 import { images } from "./data"
 
 function MemoryGame() {
@@ -11,7 +12,7 @@ function MemoryGame() {
     const [openCards, setOpenCards] = useState([])
 
     function createCardBoard() {
-        const imagesGenerated = images?.concat(...images)
+        var imagesGenerated = images.concat(...images)
         console.log(imagesGenerated)
         const shuffledArray = shuffleArray(imagesGenerated)
         setImagesArray(shuffledArray)
@@ -21,21 +22,21 @@ function MemoryGame() {
         // CHECK IF IMAGE IS SELECTED
         console.log(image, index)
 
-        if (cardsChosenIds?.length === 1 && cardsChosenIds[0] === index) {
+        if (cardsChosenIds.length === 1 && cardsChosenIds[0] === index) {
             return
         }
 
         // Check if 
-        if (cardsChosen?.length < 2) {
+        if (cardsChosen.length < 2) {
 
-            setCardsChosen(cardsChosen => cardsChosen?.concat(image))
-            setCardsChosenIds(cardsChosenIds => cardsChosenIds?.concat(index))
+            setCardsChosen(cardsChosen => cardsChosen.concat(image))
+            setCardsChosenIds(cardsChosenIds => cardsChosenIds.concat(index))
 
-            if (cardsChosen?.length === 1) {
+            if (cardsChosen.length === 1) {
                 // Check if images are the same
                 if (cardsChosen[0] === image) {
                     setPoints(points => points + 2)
-                    setOpenCards(openCards => openCards?.concat([cardsChosen[0], image]))
+                    setOpenCards(openCards => openCards.concat([cardsChosen[0], image]))
                 }
                 setTimeout(() => {
                     setCardsChosenIds([])
@@ -47,7 +48,7 @@ function MemoryGame() {
     }
 
     function isCardChosen(image, index) {
-        return cardsChosenIds?.includes(index) || openCards?.includes(image)
+        return cardsChosenIds.includes(index) || openCards.includes(image)
     }
 
 
@@ -72,12 +73,12 @@ function MemoryGame() {
     }, [])
 
     return (
-        <div className="container my-5">
-            <h2>MemoryGame</h2>
-            <h3>Points: {points}</h3>
+        <Container className="container">
+            <header>MemoryGame</header>
+            <p>Points: {points}</p>
             <button onClick={startOver}>Start over</button>
             <div className="row no-gutters">
-                {imagesArray?.map((image, index) => {
+                {imagesArray.map((image, index) => {
                     return (
                         <div className="col-4 col-lg-2" key={index} onClick={() => flipImage(image, index)}>
                             <img src={isCardChosen(image, index) ? image : BLANK_CARD} alt="" className={`img-fluid img-fixed`} />
@@ -85,7 +86,7 @@ function MemoryGame() {
                     )
                 })}
             </div>
-        </div>
+        </Container>
     )
 }
 export default MemoryGame

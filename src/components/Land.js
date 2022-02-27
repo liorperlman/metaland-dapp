@@ -11,7 +11,7 @@ const parkArray = [8, 9, 18, 19]
 const reducer = (land, action) => {
     switch (action.type) {
         case ACTIONS.AsOwned:
-            return { ...land, color: 'danger' }
+            return { ...land, color: 'danger', isOwned: true }
         case ACTIONS.AsRoad:
             return { ...land, color: 'secondary', isDisabled: 'disabled' }
         case ACTIONS.AsPark:
@@ -20,28 +20,32 @@ const reducer = (land, action) => {
             return land;
     }
 }
+
 const Land = (props) => {
     const initialState = {
         id: props.id,
         color: "primary",
-        isDisabled: ""
+        isDisabled: "",
+        isOwned: false
     }
 
     const [land, dispatch] = useReducer(reducer, initialState)
-    const [isOwned, setIsOwned] = useState(false)
     const hexId = `0x00000000000000000000000000000000000000${props.id.toString(16)}`
 
     console.log(props.accounts)
     const markLand = async () => {
         if (props.contract)
             try {
-                const maybeOwner = await props.contract.methods.getOwner(hexId).call()
+                const maybeOwner = await props.contract.methods.ownerOf(hexId).call()
+                console.log(maybeOwner)
                 const isOwned = maybeOwner !== "0x0000000000000000000000000000000000000000"
                 if (isOwned) {
                     dispatch({ type: ACTIONS.AsOwned })
-                    setIsOwned(true)
-                } else {
-                    const isRoad = roadArray.includes(props.id)
+                }
+
+            } catch (err) {
+                console.log("cant get owner")
+                const isRoad = roadArray.includes(props.id)
                     if (isRoad) {
                         dispatch({ type: ACTIONS.AsRoad })
                     } else {
@@ -50,9 +54,6 @@ const Land = (props) => {
                             dispatch({ type: ACTIONS.AsPark })
                         }
                     }
-                }
-            } catch (err) {
-                console.log("cant get owner")
             }
     }
     useEffect(() => {
@@ -66,7 +67,7 @@ const Land = (props) => {
             <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none" }} id={props.id} key={props.id}>
                 {props.id}
             </Button>} position="right center">
-                <LandPopUp id={props.id} hexId={hexId} contract={props.contract} dispatch={dispatch} account={props.accounts} isOwned1={isOwned} ></LandPopUp>
+                <LandPopUp id={props.id} hexId={hexId} contract={props.contract} dispatch={dispatch} account={props.accounts} isOwned1={land.isOwned} ></LandPopUp>
             </Popup>
         </>
     )
