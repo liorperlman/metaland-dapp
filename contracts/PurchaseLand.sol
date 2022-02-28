@@ -4,7 +4,7 @@ import "./tokens/ERC721.sol";
 import "./Ownable.sol";
 
 contract PurchaseLand is ERC721, Ownable {
-    address[100] public owners;
+    address[320] public owners;
     uint256 balance;
 
     event LandBought(address indexedFrom, uint256 landId, address owner);

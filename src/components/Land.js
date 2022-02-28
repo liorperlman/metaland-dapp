@@ -5,8 +5,8 @@ import LandPopUp from './LandPopUp'
 
 export const ACTIONS = { AsOwned: 'setAsOwned', AsRoad: 'setAsRoad', AsPark: 'setAsPark', AsFree: 'setAsFree' }
 
-const roadArray = [11, 21, 31, 34, 41, 44, 51, 54, 61, 62, 63, 64, 65, 66, 67, 68, 76, 78, 86, 88, 98]
-const parkArray = [8, 9, 18, 19]
+const roadArray = [11, 21, 31, 34, 41, 44, 51, 54, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 76, 78, 86, 88, 98]
+const parkArray = [8, 9, 18, 19, 121, 122, 131, 132, 141, 142, 151, 152]
 
 const reducer = (land, action) => {
     switch (action.type) {
@@ -67,7 +67,7 @@ const Land = (props) => {
     return (
         <>
 
-            <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none"}} id={props.id} key={props.id}>
+            <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none" }} id={props.id} key={props.id}>
                 {props.id}
             </Button>} position="right center">
                 <LandPopUp id={props.id} hexId={hexId} contract={props.contract} dispatch={dispatch} account={props.accounts} isOwned1={land.isOwned} ></LandPopUp>
