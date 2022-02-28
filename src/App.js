@@ -2,7 +2,7 @@
 import React from 'react';
 import './App.css';
 import Map from "./components/Map.js"
-import TicTac from "./games/TicTac"
+
 const App = () => {
 
   return (

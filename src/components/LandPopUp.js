@@ -1,95 +1,121 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Card, Button, Form } from "react-bootstrap"
 import { ACTIONS } from './Land'
 import TicTac from "../games/TicTac"
 import MemoryGame from "../games/MemoryGame/MemoryGame"
 
+const POPUP_ACTIONS = { isOwned: "isOwned", isOwnedByMe: "isOwnedByMe", isNotOwnedByMe: "isNotOwnedByMe", transferClicked: "transferClicked" }
+const reducer = (popup, action) => {
+    switch (action.type) {
+        case POPUP_ACTIONS.isOwned:
+            return { ...popup, isOwned: true }
+        case POPUP_ACTIONS.isOwnedByMe:
+            return { ...popup, isOwnedByMe: true, isOwned: true }
+        case POPUP_ACTIONS.isNotOwnedByMe:
+            return { ...popup, isOwnedByMe: false, isTransferClicked: false }
+        case POPUP_ACTIONS.transferClicked:
+            return { ...popup, isTransferClicked: true}
+
+        default:
+            break;
+    }
+
+}
 
 const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
-    const [isOwned, setIsOwned] = useState(isOwned1)
-    const [isOwnedByMe, setIsOwnedByMe] = useState(false)
+    const initialState = {
+        id: id,
+        isOwned: isOwned1,
+        isOwnedByMe: false,
+        isEven: id % 2 === 0 ? true : false,
+        isTransferClicked: false
+    }
+    const [popup, dispatchPopup] = useReducer(reducer, initialState)
     const [accountId, setAccountId] = useState("")
     console.log(hexId);
-    const [isTransferClicked, setIsTransferClicked] = useState(false)
-
     const handlePurchaseClick = async (id) => {
         try {
             await contract.methods.purchase(hexId).send()
             const newOwner = await contract.methods.getOwner(id).call()
-            const isOwned = newOwner === account[0]
-            if (isOwned) {
+            if (newOwner === account[0]) {
                 dispatch({ type: ACTIONS.AsOwned })
-                setIsOwned(true)
+                dispatchPopup({ type: POPUP_ACTIONS.isOwned })
             }
         } catch (err) {
             console.log("purchase rejected");
         }
     }
 
-        const isValidAccountId = (accountId) => {
-            var re = /[0-9A-Fa-f]{6}/g;
-            return (re.test(accountId) && accountId.length === 42) ? true : false
-        }
+    const isValidAccountId = (accountId) => {
+        var re = /[0-9A-Fa-f]{6}/g;
+        return (re.test(accountId) && accountId.length === 42) ? true : false
+    }
 
-        const handleTransfer = async () => {
-            if (isValidAccountId(accountId)) {
-                console.log(account[0], accountId, id);
-                try {
-                    let result = await contract.methods.transferFrom(account[0], accountId, id).send()
-                    console.log(result)
-                } catch (e) {
-                    console.log(e);
-                }
+    const handleTransfer = async () => {
+        if (isValidAccountId(accountId)) {
+            console.log(account[0], accountId, id);
+            try {
+                await contract.methods.transferFrom(account[0], accountId, id).send()
+                dispatchPopup({ type: POPUP_ACTIONS.isNotOwnedByMe })
+                console.log("transfer succeeded")
+
+            } catch (e) {
+                console.log(e);
             }
         }
+    }
 
-        useEffect(() => {
-            const checkIfOwnedByMe = async () => {
-                try{
+    useEffect(() => {
+        const checkIfOwnedByMe = async () => {
+            try {
                 const newOwner = await contract.methods.ownerOf(hexId).call()
-                const isOwnedByMe = newOwner === account[0]
-                if (isOwnedByMe) {
-                    setIsOwnedByMe(true)
-                }else
-                    setIsOwnedByMe(false)
-                }catch(e){
-                    console.log("owner is not found");
+                if (newOwner === account[0]) {
+                    dispatchPopup({ type: POPUP_ACTIONS.isOwnedByMe })
                 }
+            } catch (e) {
+                console.log("owner is not found");
             }
-            
-            checkIfOwnedByMe()
-        })
-            return (
-                <>
-                    <Card style={{ display: 'flex' }}>
-                        <Card.Body>
-                            <Card.Title>Land {id}</Card.Title>
-                            <Card.Text>
-                                Some content
-                            </Card.Text>
-               
-                            {(id%2 ==0 && isOwned) &&  <MemoryGame />}
-                            {(id%2 ==1 && isOwned) && <TicTac/>}
-                        </Card.Body>
-                        <Card.Body>
-                            {!isOwned && <Button variant='primary' onClick={async () => { handlePurchaseClick(id) }}>Purchase!</Button>}
-                            {isOwnedByMe && <Button variant='primary' onClick={async () => { setIsTransferClicked(true) }}>Transfer! </Button>}
-                            {isTransferClicked &&
-                                <Form>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Enter account Id:</Form.Label>
-                                        <Form.Control type="hex" defaultValue={accountId} placeholder="0x0000000000000000000000000000000000000000" onChange={(e) => setAccountId(e.target.value)} />
-                                    </Form.Group>
-                                    <Button variant="primary" onClick={async (e) => { handleTransfer() }}>
-                                        Submit
-                                    </Button>
-                                </Form>}
-                        </Card.Body>
-                    </Card>
-
-                </>
-            )
         }
-    
 
-        export default LandPopUp
+        checkIfOwnedByMe()
+    })
+    const test = { width: '42rem', height: '42rem' }
+    const test2 = { width: '32rem', height: '32rem' }
+    return (
+        <>
+            <Card style={popup.isEven && popup.isOwned ? test : test2}>
+                <Card.Header as="h5">Land {id}</Card.Header>
+                <Card.Body>
+                    <Card.Title>Welcome!</Card.Title>
+                    <Card.Text>
+                        Some content
+                    </Card.Text>
+
+                    {popup.isEven && popup.isOwned && <MemoryGame />}
+                    {(!popup.isEven && popup.isOwned) && <TicTac />}
+                    {!popup.isOwned && <Button variant='primary' onClick={async () => { handlePurchaseClick(id) }}>Purchase!</Button>}
+                </Card.Body>
+                <Card.Body>
+
+                    {popup.isOwnedByMe && <Button variant='primary' onClick={async () => { dispatchPopup({type:POPUP_ACTIONS.transferClicked}) }}>Transfer! </Button>}
+                    {popup.isTransferClicked &&
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Enter account Id:</Form.Label>
+                                <Form.Control type="hex" defaultValue={accountId} placeholder="0x0000000000000000000000000000000000000000" onChange={(e) => setAccountId(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Button variant="primary" onClick={async (e) => { handleTransfer() }}>
+                                    Submit
+                                </Button>
+                            </Form.Group>
+                        </Form>}
+                </Card.Body>
+            </Card>
+
+        </>
+    )
+}
+
+
+export default LandPopUp

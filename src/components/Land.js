@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap"
-import React, { useEffect, useReducer, useState } from "react"
+import React, { useEffect, useReducer } from "react"
 import Popup from 'reactjs-popup';
 import LandPopUp from './LandPopUp'
 
@@ -32,7 +32,6 @@ const Land = (props) => {
     const [land, dispatch] = useReducer(reducer, initialState)
     const hexId = `0x00000000000000000000000000000000000000${props.id.toString(16)}`
 
-    console.log(props.accounts)
     const markLand = async () => {
         if (props.contract)
             try {
@@ -41,11 +40,8 @@ const Land = (props) => {
                 const isOwned = maybeOwner !== "0x0000000000000000000000000000000000000000"
                 if (isOwned) {
                     dispatch({ type: ACTIONS.AsOwned })
-                }
-
-            } catch (err) {
-                console.log("cant get owner")
-                const isRoad = roadArray.includes(props.id)
+                }else {
+                    const isRoad = roadArray.includes(props.id)
                     if (isRoad) {
                         dispatch({ type: ACTIONS.AsRoad })
                     } else {
@@ -53,7 +49,13 @@ const Land = (props) => {
                         if (isPark) {
                             dispatch({ type: ACTIONS.AsPark })
                         }
-                    }
+
+                    } 
+
+                }
+
+            } catch (err) {
+                console.log("cant get owner")
             }
     }
     useEffect(() => {

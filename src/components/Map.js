@@ -24,7 +24,6 @@ console.log(splitArrayMap);
 
 const Map = () => {
     const [contract, accounts] = usePurchaseLandContract()
-
     return (
 
         <Container>
