@@ -31,16 +31,18 @@ const Land = (props) => {
 
     const [land, dispatch] = useReducer(reducer, initialState)
     const hexId = `0x00000000000000000000000000000000000000${props.id.toString(16)}`
-
+    const getOwnersArray = (owners) => {
+        return owners.map((value, index) => [value, index]).filter(x => x[0] !== "0x0000000000000000000000000000000000000000").map((value) => value[1])
+    }
     const markLand = async () => {
         if (props.contract)
             try {
-                const maybeOwner = await props.contract.methods.ownerOf(hexId).call()
-                console.log(maybeOwner)
-                const isOwned = maybeOwner !== "0x0000000000000000000000000000000000000000"
+                const owners = await props.contract.methods.getOwners().call()
+                const ownersArray = getOwnersArray(owners)
+                const isOwned = ownersArray.includes(props.id)
                 if (isOwned) {
                     dispatch({ type: ACTIONS.AsOwned })
-                }else {
+                } else {
                     const isRoad = roadArray.includes(props.id)
                     if (isRoad) {
                         dispatch({ type: ACTIONS.AsRoad })
@@ -49,8 +51,7 @@ const Land = (props) => {
                         if (isPark) {
                             dispatch({ type: ACTIONS.AsPark })
                         }
-
-                    } 
+                    }
 
                 }
 
@@ -60,13 +61,13 @@ const Land = (props) => {
     }
     useEffect(() => {
         markLand()
-    },[props.contract])
+    }, [props.contract])
 
 
     return (
         <>
 
-            <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none" }} id={props.id} key={props.id}>
+            <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none"}} id={props.id} key={props.id}>
                 {props.id}
             </Button>} position="right center">
                 <LandPopUp id={props.id} hexId={hexId} contract={props.contract} dispatch={dispatch} account={props.accounts} isOwned1={land.isOwned} ></LandPopUp>
