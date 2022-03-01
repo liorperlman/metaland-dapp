@@ -29,16 +29,13 @@ const Land = (props) => {
         isOwned: false
     }
 
+    const ownersArray = props.ownersArray
     const [land, dispatch] = useReducer(reducer, initialState)
     const hexId = `0x00000000000000000000000000000000000000${props.id.toString(16)}`
-    const getOwnersArray = (owners) => {
-        return owners.map((value, index) => [value, index]).filter(x => x[0] !== "0x0000000000000000000000000000000000000000").map((value) => value[1])
-    }
+
     const markLand = async () => {
         if (props.contract)
             try {
-                const owners = await props.contract.methods.getOwners().call()
-                const ownersArray = getOwnersArray(owners)
                 const isOwned = ownersArray.includes(props.id)
                 if (isOwned) {
                     dispatch({ type: ACTIONS.AsOwned })
@@ -61,12 +58,11 @@ const Land = (props) => {
     }
     useEffect(() => {
         markLand()
-    }, [props.contract])
+    }, [ownersArray])
 
 
     return (
         <>
-
             <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none" }} id={props.id} key={props.id}>
                 {props.id}
             </Button>} position="right center">

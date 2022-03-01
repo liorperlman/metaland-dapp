@@ -13,7 +13,7 @@ contract PurchaseLand is ERC721, Ownable {
     constructor() ERC721("MetaLand", "MND") {}
 
     function purchase(uint256 landId) public payable returns (uint256) {
-        require(landId >= 0 && landId <= 99);
+        require(landId >= 0 && landId <= 319);
         require(owners[landId] == 0x0000000000000000000000000000000000000000);
         _mint(msg.sender, landId);
         owners[landId] = msg.sender;
@@ -21,7 +21,7 @@ contract PurchaseLand is ERC721, Ownable {
         return landId;
     }
     // Retrieving the owners
-    function getOwners() public view returns (address[100] memory) {
+    function getOwners() public view returns (address[320] memory) {
         return owners;
     }
     // Retrieving specific owner

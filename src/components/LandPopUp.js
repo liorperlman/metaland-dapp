@@ -32,7 +32,6 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
     }
     const [popup, dispatchPopup] = useReducer(reducer, initialState)
     const [accountId, setAccountId] = useState("")
-    console.log(hexId);
     const handlePurchaseClick = async (id) => {
         try {
             await contract.methods.purchase(hexId).send()
