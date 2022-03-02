@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { Card, Button, Form } from "react-bootstrap"
 import { ACTIONS } from './Land'
 import TicTac from "../games/TicTac"
+import ApproveButton from "./ApproveButton"
 import MemoryGame from "../games/MemoryGame/MemoryGame"
 
 const POPUP_ACTIONS = { isOwned: "isOwned", isOwnedByMe: "isOwnedByMe", isNotOwnedByMe: "isNotOwnedByMe", transferClicked: "transferClicked" }
@@ -109,6 +110,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
                                 </Button>
                             </Form.Group>
                         </Form>}
+                        <ApproveButton id = {id} contract = {contract} account = {account[0]}></ApproveButton>
                 </Card.Body>
             </Card>
 

@@ -1,6 +1,6 @@
 
 // import { useState, useEffect } from "react"
-import React, { useReducer, useEffect} from 'react'
+import React, { useReducer, useEffect, useState} from 'react'
 import { Container, Row, Col } from "react-bootstrap"
 import Land from "./Land"
 import { usePurchaseLandContract } from "../hooks/usePurchaseLandContract"
@@ -27,26 +27,36 @@ const splitArrayMap = createMapArray()
 console.log(splitArrayMap);
 
 const OwnersReducer = (ownersArray, action ) => {
-            return action.payload
+            return  getOwnersArray(action.payload)
 }
 
 const Map = () => {
     const [contract, accounts] = usePurchaseLandContract()
     const [ownersArray, dispatch] = useReducer(OwnersReducer,[])
+    const [mapIsReady, setMapIsReady] = useState(false);
 
     useEffect(async () => {
         if (contract)
             try {
                 const owners = await contract.methods.getOwners().call()
-                const tempOwnersArray = getOwnersArray(owners)
-                dispatch({type:"addOwners", payload:tempOwnersArray})
+                dispatch({type:"addOwners", payload:owners})
             }
             catch (e) {
                 console.log("cant get owners")
             }
     },[contract, accounts])
-    return (
 
+
+    useEffect(() => {
+        if(ownersArray.length > 0)
+        setMapIsReady(true)
+    })
+    window.ethereum.on('disconnect', () => {
+        console.log("MetaMask discconnected")
+    })
+    return (
+        <>
+       { mapIsReady ?
         <Container>
             <Row>
                 {splitArrayMap[0].map((land) =>
@@ -144,8 +154,8 @@ const Map = () => {
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-        </Container>
-
+        </Container> : <div>Connect to MetaMask...</div>}
+        </>
     )
 }
 
