@@ -63,7 +63,7 @@ const Land = (props) => {
 
     return (
         <>
-            <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: "none", boxShadow: "none" }} id={props.id} key={props.id}>
+            <Popup trigger={<Button className={`w-100 h-100 rounded-0 ${land.isDisabled}`} variant={land.color} style={{ outline: land.isDisabled!='disabled' ? "1px solid black":"none", boxShadow: "none" }} id={props.id} key={props.id}>
                 {props.id}
             </Button>} position="right center">
                 <LandPopUp id={props.id} hexId={hexId} contract={props.contract} dispatch={dispatch} account={props.accounts} isOwned1={land.isOwned} ></LandPopUp>

@@ -48,8 +48,8 @@ const Map = () => {
 
 
     useEffect(() => {
-        if(ownersArray.length > 0)
-        setMapIsReady(true)
+        if(contract && accounts)
+            setMapIsReady(true)
     })
     window.ethereum.on('disconnect', () => {
         console.log("MetaMask discconnected")
@@ -60,97 +60,97 @@ const Map = () => {
         <Container>
             <Row>
                 {splitArrayMap[0].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0" >
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[1].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts}  ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[2].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[3].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[4].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[5].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[6].map((land) =>
-                    <Col key={land.id} className="p-0 m-1 ">
+                    <Col key={land.id} className="p-0 m-0 ">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[7].map((land) =>
-                    <Col key={land.id} className="p-0 m-1 ">
+                    <Col key={land.id} className="p-0 m-0 ">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[8].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[9].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[10].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[11].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[12].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[13].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[14].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row>
                 {splitArrayMap[15].map((land) =>
-                    <Col key={land.id} className="p-0 m-1">
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
