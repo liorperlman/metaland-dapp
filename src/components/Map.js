@@ -1,5 +1,4 @@
 
-// import { useState, useEffect } from "react"
 import React, { useReducer, useEffect, useState} from 'react'
 import { Container, Row, Col } from "react-bootstrap"
 import Land from "./Land"
@@ -11,8 +10,8 @@ const createMapArray = () => {
     let allMapsArray = []
     let mapArray = []
     for (let i = 0; i < 16; i++) {
-        for (let j = 0; j < 20; j++) {
-            mapArray.push({ id: (i * 20) + j, owner: null, type: "" })
+        for (let j = 0; j < 50; j++) {
+            mapArray.push({ id: (i * 50) + j, owner: null, type: "" })
         }
         allMapsArray.push(mapArray)
         mapArray = []
@@ -58,97 +57,97 @@ const Map = () => {
         <>
        { mapIsReady ?
         <Container>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[0].map((land) =>
-                    <Col key={land.id} className="p-0 m-0" >
+                    <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[1].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts}  ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[2].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[3].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[4].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[5].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[6].map((land) =>
                     <Col key={land.id} className="p-0 m-0 ">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[7].map((land) =>
                     <Col key={land.id} className="p-0 m-0 ">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[8].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[9].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[10].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[11].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[12].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[13].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[14].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
-            <Row>
+            <Row xs={'auto'}>
                 {splitArrayMap[15].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
                         <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
