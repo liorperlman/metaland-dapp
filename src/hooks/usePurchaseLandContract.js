@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import PurchaseLandData from "../PurchaseLand.json"
 import getWeb3 from "./getWeb3"
 
-const contractAddress = "0xAAa01114eD9D1A9A80b2F9d25D5C05F915ef4350"
+const contractAddress = "0x365A61a69a8762df9134DCAB3A5787D8BfBA88E5"
 export const usePurchaseLandContract = () => {
 
     const [web3, setWeb3] = useState(null)

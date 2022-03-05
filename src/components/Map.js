@@ -3,6 +3,7 @@ import React, { useReducer, useEffect, useState} from 'react'
 import { Container, Row, Col } from "react-bootstrap"
 import Land from "./Land"
 import { usePurchaseLandContract } from "../hooks/usePurchaseLandContract"
+import { pricesArray } from '../config'
 
 
 
@@ -11,7 +12,7 @@ const createMapArray = () => {
     let mapArray = []
     for (let i = 0; i < 16; i++) {
         for (let j = 0; j < 50; j++) {
-            mapArray.push({ id: (i * 50) + j, owner: null, type: "" })
+            mapArray.push({ id: (i * 50) + j, owner: null, type: "" , price: pricesArray[i*50 + j]})
         }
         allMapsArray.push(mapArray)
         mapArray = []
@@ -60,7 +61,7 @@ const Map = () => {
             <Row xs={'auto'}>
                 {splitArrayMap[0].map((land) =>
                     <Col key={land.id} className="p-0 m-0">
-                        <Land id={land.id} name={land.name} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
+                        <Land id={land.id} name={land.name} price={land.price} contract={contract} accounts={accounts} ownersArray = {ownersArray} />
                     </Col>)}
             </Row>
             <Row xs={'auto'}>

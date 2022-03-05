@@ -23,7 +23,7 @@ const reducer = (popup, action) => {
 
 }
 
-const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
+const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) => {
     const initialState = {
         id: id,
         isOwned: isOwned1,
@@ -33,14 +33,25 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
     }
     const [popup, dispatchPopup] = useReducer(reducer, initialState)
     const [accountId, setAccountId] = useState("")
+    const [newPrice, setNewPrice] = useState(price)
     const handlePurchaseClick = async (id) => {
         try {
-            await contract.methods.purchase(hexId).send()
+            await contract.methods.purchase(hexId, price).send({value: price})
             const newOwner = await contract.methods.getOwner(id).call()
             if (newOwner === account[0]) {
                 dispatch({ type: ACTIONS.AsOwned })
                 dispatchPopup({ type: POPUP_ACTIONS.isOwned })
             }
+        } catch (err) {
+            console.log("purchase rejected");
+        }
+    }
+    const handleSetPriceClick = async (id) => {
+        try {
+            console.log(newPrice* 1000000000000000000)
+            const hexPrice = (newPrice* 1000000000000000000).toString(16)
+            await contract.methods.setPrice(hexId, hexPrice).send()
+           
         } catch (err) {
             console.log("purchase rejected");
         }
@@ -55,7 +66,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
         if (isValidAccountId(accountId)) {
             console.log(account[0], accountId, id);
             try {
-                await contract.methods.transferFrom(account[0], accountId, id).send()
+                await contract.methods.transferFrom(account[0], accountId, id).send({value:10000000000000000000})
                 dispatchPopup({ type: POPUP_ACTIONS.isNotOwnedByMe })
                 console.log("transfer succeeded")
 
@@ -110,7 +121,18 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, isOwned1 }) => {
                                 </Button>
                             </Form.Group>
                         </Form>}
-                        <ApproveButton id = {id} contract = {contract} account = {account[0]}></ApproveButton>
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Enter New Price:</Form.Label>
+                                <Form.Control type="hex" placeholder={(price/1000000000000000000)} onChange={(e) => setNewPrice(e.target.value)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Button variant="primary" onClick={async (e) => { handleSetPriceClick() }}>
+                                    Change Price
+                                </Button>
+                            </Form.Group>
+                        </Form>
+                        {/* <ApproveButton id = {id} contract = {contract} account = {account[0]}></ApproveButton> */}
                 </Card.Body>
             </Card>
 
