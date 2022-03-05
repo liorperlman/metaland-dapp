@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { Card, Button, Form } from "react-bootstrap"
+import { Card, Button, Form, Row, Col } from "react-bootstrap"
 import { ACTIONS } from './Land'
 import TicTac from "../games/TicTac"
-import ApproveButton from "./ApproveButton"
 import MemoryGame from "../games/MemoryGame/MemoryGame"
-
-const POPUP_ACTIONS = { isOwned: "isOwned", isOwnedByMe: "isOwnedByMe", isNotOwnedByMe: "isNotOwnedByMe", transferClicked: "transferClicked" }
+const POPUP_ACTIONS = { isOwned: "isOwned", isOwnedByMe: "isOwnedByMe", isNotOwnedByMe: "isNotOwnedByMe", transferClicked: "transferClicked", setNewPriceClicked: "newPriceClicked" }
+const test = { width: '42rem', height: '42rem' }
+const test2 = { width: '32rem', height: '36rem' }
 const reducer = (popup, action) => {
     switch (action.type) {
         case POPUP_ACTIONS.isOwned:
@@ -15,8 +15,9 @@ const reducer = (popup, action) => {
         case POPUP_ACTIONS.isNotOwnedByMe:
             return { ...popup, isOwnedByMe: false, isTransferClicked: false }
         case POPUP_ACTIONS.transferClicked:
-            return { ...popup, isTransferClicked: true}
-
+            return { ...popup, isTransferClicked: !popup.isTransferClicked }
+        case POPUP_ACTIONS.setNewPriceClicked:
+            return { ...popup, isSetNewPriceClicked: !popup.isSetNewPriceClicked }
         default:
             break;
     }
@@ -29,31 +30,34 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         isOwned: isOwned1,
         isOwnedByMe: false,
         isEven: id % 2 === 0 ? true : false,
-        isTransferClicked: false
+        isTransferClicked: false,
+        isSetNewPriceClicked: false
     }
     const [popup, dispatchPopup] = useReducer(reducer, initialState)
     const [accountId, setAccountId] = useState("")
     const [newPrice, setNewPrice] = useState(price)
     const handlePurchaseClick = async (id) => {
         try {
-            await contract.methods.purchase(hexId, price).send({value: price})
+
+            const priceInEther = newPrice / 1000000000000000000
+            console.log(priceInEther);
+            await contract.methods.purchase(hexId, priceInEther).send({ value: newPrice })
             const newOwner = await contract.methods.getOwner(id).call()
             if (newOwner === account[0]) {
                 dispatch({ type: ACTIONS.AsOwned })
                 dispatchPopup({ type: POPUP_ACTIONS.isOwned })
             }
         } catch (err) {
-            console.log("purchase rejected");
+            console.log(err);
         }
     }
-    const handleSetPriceClick = async (id) => {
+    const handleSetPriceClick = async () => {
+        console.log(id)
         try {
-            console.log(newPrice* 1000000000000000000)
-            const hexPrice = (newPrice* 1000000000000000000).toString(16)
-            await contract.methods.setPrice(hexId, hexPrice).send()
-           
+            await contract.methods.setPrice(id, newPrice).send()
+
         } catch (err) {
-            console.log("purchase rejected");
+            console.log("setPrice rejected");
         }
     }
 
@@ -66,7 +70,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         if (isValidAccountId(accountId)) {
             console.log(account[0], accountId, id);
             try {
-                await contract.methods.transferFrom(account[0], accountId, id).send({value:10000000000000000000})
+                await contract.methods.transferFrom(account[0], accountId, id).send({ value: 10000000000000000000 })
                 dispatchPopup({ type: POPUP_ACTIONS.isNotOwnedByMe })
                 console.log("transfer succeeded")
 
@@ -89,9 +93,8 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         }
 
         checkIfOwnedByMe()
-    })
-    const test = { width: '42rem', height: '42rem' }
-    const test2 = { width: '32rem', height: '32rem' }
+    },[contract])
+
     return (
         <>
             <Card style={popup.isEven && popup.isOwned ? test : test2}>
@@ -108,7 +111,16 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
                 </Card.Body>
                 <Card.Body>
 
-                    {popup.isOwnedByMe && <Button variant='primary' onClick={async () => { dispatchPopup({type:POPUP_ACTIONS.transferClicked}) }}>Transfer! </Button>}
+                    {popup.isOwnedByMe && <>
+                        <Row>
+                            <Col>
+                                <Button className="mr-3" variant='primary' onClick={async () => { dispatchPopup({ type: POPUP_ACTIONS.transferClicked }) }}>Transfer! </Button>
+                            </Col>
+                            <Col>
+                                <Button className="mr-3" variant='primary' onClick={async () => { dispatchPopup({ type: POPUP_ACTIONS.setNewPriceClicked }) }}>Set New Price! </Button>
+                            </Col>
+                        </Row>
+                    </>}
                     {popup.isTransferClicked &&
                         <Form>
                             <Form.Group className="mb-3">
@@ -121,18 +133,16 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
                                 </Button>
                             </Form.Group>
                         </Form>}
-                        <Form>
+                    {popup.isSetNewPriceClicked &&
+                        < Form >
                             <Form.Group className="mb-3">
                                 <Form.Label>Enter New Price:</Form.Label>
-                                <Form.Control type="hex" placeholder={(price/1000000000000000000)} onChange={(e) => setNewPrice(e.target.value)} />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
+                                <Form.Control type="hex" placeholder={(price / 1000000000000000000)} onChange={(e) => setNewPrice(e.target.value)} />
                                 <Button variant="primary" onClick={async (e) => { handleSetPriceClick() }}>
                                     Change Price
                                 </Button>
                             </Form.Group>
-                        </Form>
-                        {/* <ApproveButton id = {id} contract = {contract} account = {account[0]}></ApproveButton> */}
+                        </Form>}
                 </Card.Body>
             </Card>
 
