@@ -50,7 +50,8 @@ const Map = () => {
     useEffect(() => {
         if(contract && accounts)
             setMapIsReady(true)
-    })
+    },[contract, accounts])
+    
     window.ethereum.on('disconnect', () => {
         console.log("MetaMask discconnected")
     })
