@@ -21,7 +21,6 @@ const reducer = (popup, action) => {
         default:
             break;
     }
-
 }
 
 const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) => {
@@ -31,17 +30,17 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         isOwnedByMe: false,
         isEven: id % 2 === 0 ? true : false,
         isTransferClicked: false,
-        isSetNewPriceClicked: false
+        isSetNewPriceClicked: false,
     }
     const [popup, dispatchPopup] = useReducer(reducer, initialState)
     const [accountId, setAccountId] = useState("")
-    const [newPrice, setNewPrice] = useState(price)
+    const [newPrice, setNewPrice] = useState(0)
     const handlePurchaseClick = async (id) => {
         try {
 
-            const priceInEther = newPrice / 1000000000000000000
-            console.log(priceInEther);
-            await contract.methods.purchase(hexId, priceInEther).send({ value: newPrice })
+             const priceInEther = price / 1000000000000000000
+
+            await contract.methods.purchase(hexId, priceInEther).send({ value: price })
             const newOwner = await contract.methods.getOwner(id).call()
             if (newOwner === account[0]) {
                 dispatch({ type: ACTIONS.AsOwned })
@@ -52,9 +51,10 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         }
     }
     const handleSetPriceClick = async () => {
-        console.log(id)
+        console.log(newPrice, id)
         try {
             await contract.methods.setPrice(id, newPrice).send()
+            dispatch({ type: ACTIONS.priceChanged, price: newPrice })
 
         } catch (err) {
             console.log("setPrice rejected");
@@ -100,9 +100,9 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
             <Card style={popup.isEven && popup.isOwned ? test : test2}>
                 <Card.Header as="h5">Land {id}</Card.Header>
                 <Card.Body>
-                    <Card.Title>Welcome!</Card.Title>
+                    <Card.Title>Welcome to Land {id}!</Card.Title>
                     <Card.Text>
-                        Some content
+                    Land Price: {price > 20 ? price / 1000000000000000000: price} Ethers.
                     </Card.Text>
 
                     {popup.isEven && popup.isOwned && <MemoryGame />}
@@ -137,7 +137,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
                         < Form >
                             <Form.Group className="mb-3">
                                 <Form.Label>Enter New Price:</Form.Label>
-                                <Form.Control type="hex" placeholder={(price / 1000000000000000000)} onChange={(e) => setNewPrice(e.target.value)} />
+                                <Form.Control type="hex" placeholder={price > 20 ? price / 1000000000000000000: price} onChange={(e) => setNewPrice(e.target.value)} />
                                 <Button variant="primary" onClick={async (e) => { handleSetPriceClick() }}>
                                     Change Price
                                 </Button>
