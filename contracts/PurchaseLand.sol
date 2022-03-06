@@ -41,7 +41,7 @@ contract PurchaseLand is ERC721 {
         return landId;
     }
     function setPrice(uint256 landId, uint256 newPrice) public virtual {
-        require(owners[landId] == msg.sender);
+        require(ownerOf(landId) == msg.sender);
         _price[landId] = newPrice;
         emit PriceChanged(landId, newPrice);
     }

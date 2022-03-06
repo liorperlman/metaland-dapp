@@ -70,7 +70,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         if (isValidAccountId(accountId)) {
             console.log(account[0], accountId, id);
             try {
-                await contract.methods.transferFrom(account[0], accountId, id).send({ value: 10000000000000000000 })
+                await contract.methods.transferFrom(account[0], accountId, id).send()
                 dispatchPopup({ type: POPUP_ACTIONS.isNotOwnedByMe })
                 console.log("transfer succeeded")
 
@@ -93,7 +93,7 @@ const LandPopUp = ({ id, hexId, contract, dispatch, account, price, isOwned1 }) 
         }
 
         checkIfOwnedByMe()
-    },[contract])
+    })
 
     return (
         <>
